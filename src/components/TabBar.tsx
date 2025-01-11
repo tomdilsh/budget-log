@@ -1,13 +1,15 @@
 import {PlatformPressable, Text} from '@react-navigation/elements';
 import {useLinkBuilder, useTheme} from '@react-navigation/native';
-import {View} from 'react-native';
+import {Dimensions, View} from 'react-native';
+
+const screenWidth = Dimensions.get('window').width;
 
 export function TabBar({state, descriptors, navigation}) {
   const {colors} = useTheme();
   const {buildHref} = useLinkBuilder();
 
   return (
-    <View style={{flexDirection: 'row'}}>
+    <View style={{flexDirection: 'row', alignItems: 'center'}}>
       {state.routes.map((route, index) => {
         const {options} = descriptors[route.key];
         const label =
@@ -46,13 +48,22 @@ export function TabBar({state, descriptors, navigation}) {
             testID={options.tabBarButtonTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={{flex: 1}}>
-            <View>
-              <Text style={{color: isFocused ? colors.primary : colors.text}}>
-                {options.label || label}
-              </Text>
-              {options?.tabBarIcon?.()}
-            </View>
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              flex: 1,
+              paddingTop: 6,
+              paddingBottom: 2,
+            }}>
+            {options?.tabBarIcon?.()}
+            <Text
+              style={{
+                color: isFocused ? colors.primary : colors.text,
+                fontSize: 10,
+                marginTop: 4,
+              }}>
+              {options.label || label}
+            </Text>
           </PlatformPressable>
         );
       })}

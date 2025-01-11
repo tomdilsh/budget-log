@@ -9,7 +9,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import {useColorScheme} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faPenNib} from '@fortawesome/free-solid-svg-icons/faPenNib';
+import {faPenToSquare} from '@fortawesome/free-solid-svg-icons/faPenToSquare';
+import {faLandmark} from '@fortawesome/free-solid-svg-icons/faLandmark';
+import {faGears} from '@fortawesome/free-solid-svg-icons/faGears';
 import LogProvider from 'hooks/LogContext';
 import {TabBar} from 'components/TabBar';
 import Log from 'pages/Log';
@@ -35,11 +37,29 @@ function App(): React.JSX.Element {
               component={Log}
               options={{
                 tabBarLabel: 'Log',
-                tabBarIcon: () => <FontAwesomeIcon icon={faPenNib} />,
+                tabBarIcon: () => (
+                  <FontAwesomeIcon icon={faPenToSquare} size={25} />
+                ),
               }}
             />
-            <Tab.Screen name="History" component={History} />
-            <Tab.Screen name="Settings" component={Settings} />
+            <Tab.Screen
+              name="History"
+              component={History}
+              options={{
+                tabBarLabel: 'History',
+                tabBarIcon: () => (
+                  <FontAwesomeIcon icon={faLandmark} size={25} />
+                ),
+              }}
+            />
+            <Tab.Screen
+              name="Settings"
+              component={Settings}
+              options={{
+                tabBarLabel: 'Settings',
+                tabBarIcon: () => <FontAwesomeIcon icon={faGears} size={25} />,
+              }}
+            />
           </Tab.Navigator>
         </ThemeProvider>
       </LogProvider>
