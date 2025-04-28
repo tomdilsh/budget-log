@@ -1,6 +1,6 @@
 import {PlatformPressable, Text} from '@react-navigation/elements';
 import {useLinkBuilder, useTheme} from '@react-navigation/native';
-import {Dimensions, View} from 'react-native';
+import {Dimensions, TouchableOpacity, View} from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -41,13 +41,13 @@ export function TabBar({state, descriptors, navigation}) {
         };
 
         return (
-          <PlatformPressable
-            href={buildHref(route.name, route.params)}
+          <TouchableOpacity
             accessibilityState={isFocused ? {selected: true} : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarButtonTestID}
             onPress={onPress}
             onLongPress={onLongPress}
+            key={index}
             style={{
               alignItems: 'center',
               justifyContent: 'center',
@@ -55,7 +55,7 @@ export function TabBar({state, descriptors, navigation}) {
               paddingTop: 6,
               paddingBottom: 2,
             }}>
-            {options?.tabBarIcon?.()}
+            {options?.tabBarIcon && <options.tabBarIcon focused={isFocused} />}
             <Text
               style={{
                 color: isFocused ? colors.primary : colors.text,
@@ -64,7 +64,7 @@ export function TabBar({state, descriptors, navigation}) {
               }}>
               {options.label || label}
             </Text>
-          </PlatformPressable>
+          </TouchableOpacity>
         );
       })}
     </View>

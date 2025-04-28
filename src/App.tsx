@@ -22,6 +22,7 @@ const Tab = createBottomTabNavigator();
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+  const {colors} = isDarkMode ? DarkTheme : DefaultTheme;
 
   return (
     <NavigationContainer>
@@ -37,8 +38,12 @@ function App(): React.JSX.Element {
               component={Log}
               options={{
                 tabBarLabel: 'Log',
-                tabBarIcon: () => (
-                  <FontAwesomeIcon icon={faPenToSquare} size={25} />
+                tabBarIcon: ({focused}) => (
+                  <FontAwesomeIcon
+                    icon={faPenToSquare}
+                    color={focused ? colors.primary : colors.text}
+                    size={25}
+                  />
                 ),
               }}
             />
@@ -47,8 +52,12 @@ function App(): React.JSX.Element {
               component={History}
               options={{
                 tabBarLabel: 'History',
-                tabBarIcon: () => (
-                  <FontAwesomeIcon icon={faLandmark} size={25} />
+                tabBarIcon: ({focused}) => (
+                  <FontAwesomeIcon
+                    icon={faLandmark}
+                    color={focused ? colors.primary : colors.text}
+                    size={25}
+                  />
                 ),
               }}
             />
@@ -57,7 +66,13 @@ function App(): React.JSX.Element {
               component={Settings}
               options={{
                 tabBarLabel: 'Settings',
-                tabBarIcon: () => <FontAwesomeIcon icon={faGears} size={25} />,
+                tabBarIcon: ({focused}) => (
+                  <FontAwesomeIcon
+                    icon={faGears}
+                    color={focused ? colors.primary : colors.text}
+                    size={25}
+                  />
+                ),
               }}
             />
           </Tab.Navigator>

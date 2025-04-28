@@ -57,7 +57,7 @@ export default function SettingsScreen() {
     <ScrollView
       style={{
         margin: 30,
-        marginTop: 60,
+        marginTop: 30,
       }}
       contentContainerStyle={{
         justifyContent: 'flex-start',
