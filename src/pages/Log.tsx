@@ -1,7 +1,7 @@
 import {useContext, useState} from 'react';
 import {useColorScheme, ScrollView, View} from 'react-native';
 import {Button, TextInput, Text, Divider} from 'react-native-paper';
-import {matchValidCurrency} from 'utils/utils';
+import {formatCurrency, matchValidCurrency} from 'utils/utils';
 import {ACTIONS} from 'constants/interfaces';
 import {Colors} from 'constants/colours';
 import {LogContext} from 'hooks/LogContext';
@@ -37,7 +37,7 @@ export default function LogScreen() {
 
   const onMemoChange = (text: string) => setMemo(text);
 
-  const balanceLongPress = () => setAmount(balance.replace('$', ''));
+  const balanceLongPress = () => setAmount(balance.toString());
 
   return (
     <ScrollView
@@ -59,7 +59,7 @@ export default function LogScreen() {
         }}
         onLongPress={balanceLongPress}
         variant="displayLarge">
-        {balance}
+        {formatCurrency(balance)}
       </Text>
       <TextInput
         style={{

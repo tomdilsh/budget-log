@@ -2,7 +2,7 @@ import React from 'react';
 import useLog from './useLog';
 
 const initState = {
-  balance: '$0.00',
+  balance: 0,
   history: [] as any,
   mutateBalance: (() => {}) as any,
   deleteAll: (() => {}) as any,

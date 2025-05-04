@@ -25,8 +25,8 @@ export const getNewBalance = (action: ACTIONS, balance: number, amount = 0) => {
   }
 };
 
-export const formatDate = (date: string) => {
-  const jsDate = new Date(+date);
+export const formatDate = (date: number) => {
+  const jsDate = new Date(date);
   return `${jsDate.toLocaleDateString()} ${jsDate.toLocaleTimeString()}`;
 };
 
@@ -57,9 +57,8 @@ const parseAndValidateFile = (content: string) => {
     const valid = parsed.every(entry => {
       return (
         entry.amount &&
-        entry.balance !== null &&
-        entry.balance !== undefined &&
-        new Date(+entry.date).valueOf() &&
+        entry.balance != null &&
+        new Date(entry.date).valueOf() &&
         entry.action in ACTIONS
       );
     });

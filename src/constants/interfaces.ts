@@ -7,6 +7,6 @@ export interface LogEntry {
   action: ACTIONS;
   amount: number;
   balance: number;
-  date: string;
+  date: number;
   memo?: string;
 }

@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // import {getInfoAsync, StorageAccessFramework} from 'expo-file-system';
 import {useContext, useEffect, useState} from 'react';
 
-import {BACKUP_KEY, FILE_NAME} from 'constants/const';
+import {BACKUP_KEY} from 'constants/const';
 import {LogContext} from './LogContext';
 
 export default function useBackup() {

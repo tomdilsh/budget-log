@@ -1,23 +1,16 @@
-import {PlatformPressable, Text} from '@react-navigation/elements';
-import {useLinkBuilder, useTheme} from '@react-navigation/native';
-import {Dimensions, TouchableOpacity, View} from 'react-native';
-
-const screenWidth = Dimensions.get('window').width;
+import {Text} from '@react-navigation/elements';
+import {useTheme} from '@react-navigation/native';
+import {TouchableOpacity, View} from 'react-native';
 
 export function TabBar({state, descriptors, navigation}) {
   const {colors} = useTheme();
-  const {buildHref} = useLinkBuilder();
 
   return (
     <View style={{flexDirection: 'row', alignItems: 'center'}}>
       {state.routes.map((route, index) => {
         const {options} = descriptors[route.key];
-        const label =
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
-            ? options.title
-            : route.name;
+        const label = options.tabBarLabel;
+        const Icon = options.tabBarIcon;
 
         const isFocused = state.index === index;
 
@@ -55,7 +48,7 @@ export function TabBar({state, descriptors, navigation}) {
               paddingTop: 6,
               paddingBottom: 2,
             }}>
-            {options?.tabBarIcon && <options.tabBarIcon focused={isFocused} />}
+            <Icon focused={isFocused} />
             <Text
               style={{
                 color: isFocused ? colors.primary : colors.text,
