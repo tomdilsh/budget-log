@@ -5,6 +5,7 @@ import {LogContext} from 'hooks/LogContext';
 import {Colors} from 'constants/colours';
 import useBackup from 'hooks/useBackup';
 
+
 export default function SettingsScreen() {
   const {deleteAll, importRecords} = useContext(LogContext);
   const {backupLocation, backupOn, toggleBackupOn} = useBackup();
