@@ -11,6 +11,7 @@ module.exports = {
           api: './src/api',
           pages: './src/pages',
           utils: './src/utils',
+          services: './src/services',
         },
       },
     ],

@@ -1,13 +1,7 @@
 import {useEffect, useState} from 'react';
 import {ACTIONS, LogEntry} from 'constants/interfaces';
 import {getNewBalance, pickFile} from 'utils/utils';
-import {
-  clearLogEntries,
-  createTable,
-  getDBConnection,
-  saveLogEntries,
-  saveLogEntry,
-} from 'src/services/database';
+import { clearLogEntries, createTable, getDBConnection, saveLogEntries, saveLogEntry } from 'services/database';
 
 export default function useLog() {
   const [balance, setBalance] = useState(0);

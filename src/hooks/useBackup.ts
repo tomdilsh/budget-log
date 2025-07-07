@@ -1,14 +1,28 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import {getInfoAsync, StorageAccessFramework} from 'expo-file-system';
-import {useContext, useEffect, useState} from 'react';
+import RNFS from 'react-native-fs';
+import { useContext, useEffect, useState } from 'react';
 
-import {BACKUP_KEY} from 'constants/const';
-import {LogContext} from './LogContext';
+import { BACKUP_KEY, FILE_NAME } from 'constants/const';
+import { LogContext } from './LogContext';
+import { pickDirectory } from '@react-native-documents/picker';
 
 export default function useBackup() {
   const {history} = useContext(LogContext);
   const [backupOn, setBackupOn] = useState(false);
   const [backupLocation, setBackupLocation] = useState('');
+
+  const convertContentUriToFilePath = async (contentUri: string) => {
+    if (contentUri.startsWith('content://')) {
+      try {
+        const path = decodeURIComponent(contentUri).split('primary:')[1];
+        return `${RNFS.ExternalStorageDirectoryPath}/${path}/${FILE_NAME}.json`;
+      } catch (error) {
+        console.error("Error converting content URI:", error);
+        return null;
+      }
+    }
+    return null;
+  };
 
   const testFileExists = async () => {
     const fileName = (await AsyncStorage.getItem(BACKUP_KEY)) || '';
@@ -16,55 +30,47 @@ export default function useBackup() {
       return null;
     }
 
-    let info = null;
     try {
-      // info = await getInfoAsync(fileName);
+      const exists = await RNFS.exists(fileName);
+      return exists ? fileName : null;
     } catch (e) {
-      console.error(e);
+      console.error('Error checking file existence:', e);
+      return null;
     }
-    return '';
-    // return info?.exists ? fileName : null;
   };
 
-  const pickDirAndCreateFile = async () => {
-    let result = null;
+  const pickDir = async () => {
     try {
-      // @ts-ignore
-      // const {directoryUri, granted} =
-      // await StorageAccessFramework.requestDirectoryPermissionsAsync();
-      if (granted) {
-        // const fileUri = await StorageAccessFramework.createFileAsync(
-        //   directoryUri,
-        //   FILE_NAME,
-        //   'application/json',
-        // );
-        // result = fileUri;
-        result = '';
+      const {uri} = await pickDirectory({
+        requestLongTermAccess: true,  
+      });
+
+      if (!uri) {
+        return null;
       }
+
+      return await convertContentUriToFilePath(uri);
     } catch (err) {
-      console.error(err);
+      console.error('Error picking directory:', err);
+      return null;
     }
-    return result;
   };
 
-  const writeHistory = async (fileUri: string) => {
+  const writeHistory = async (path: string) => {
     try {
-      // await StorageAccessFramework.writeAsStringAsync(
-      //   fileUri,
-      //   JSON.stringify(history),
-      // );
+      await RNFS.writeFile(path, JSON.stringify(history), 'utf8');
     } catch (err) {
-      console.error(err);
+      console.error('Error writing backup file:', err);
     }
   };
 
   const getDirectoryAndWrite = async () => {
     let fileUri = await testFileExists();
     if (!fileUri) {
-      fileUri = await pickDirAndCreateFile();
+      fileUri = await pickDir();
     }
     if (fileUri) {
-      writeHistory(fileUri);
+      await writeHistory(fileUri);
     }
     return fileUri;
   };

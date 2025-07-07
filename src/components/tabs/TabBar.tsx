@@ -40,6 +40,7 @@ export function TabBar({state, descriptors, navigation}) {
             testID={options.tabBarButtonTestID}
             onPress={onPress}
             onLongPress={onLongPress}
+            activeOpacity={1}
             key={index}
             style={{
               alignItems: 'center',

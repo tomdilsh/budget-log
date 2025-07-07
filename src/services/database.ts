@@ -47,8 +47,7 @@ export const saveLogEntries = async (
   logEntries: LogEntry[],
 ) => {
   const insertQuery = `
-    INSERT OR REPLACE INTO log_entry(
-      id, 
+    INSERT OR REPLACE INTO log_entries(
       action, 
       amount,
       balance,
@@ -56,8 +55,10 @@ export const saveLogEntries = async (
       memo
     ) VALUES
      ${logEntries
-       .map(entry => `(${Object.values(entry).join(',')})`)
-       .join(',')}`;
+      .map(entry => `(${Object.values(entry)
+        .map(e => typeof e === 'string' ? `"${e}"` : e)
+        .join(',')})`)
+      .join(',')}`;
 
   return db.executeSql(insertQuery);
 };
